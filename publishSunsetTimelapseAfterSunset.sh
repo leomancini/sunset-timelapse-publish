@@ -9,12 +9,13 @@ SUNSET_TIME_ET=$(TZ=US/Eastern gdate -d "$SUNSET_TIME")
 SUNSET_TIME_ET_90MIN_AFTER=$(TZ=US/Eastern gdate -d "$SUNSET_TIME_ET + 90 minutes")
 
 NOW=$(date)
-DIFF=$(( $(gdate -d "$NOW" "+%s") - $(gdate -d "$SUNSET_TIME_ET_90MIN_AFTER" "+%s") ))
+DIFF_SECONDS=$(( $(gdate -d "$NOW" "+%s") - $(gdate -d "$SUNSET_TIME_ET_90MIN_AFTER" "+%s") ))
+DIFF_MINUTES=$((DIFF_SECONDS / 60))
 
 echo "NOW: $NOW";
 echo "90 MIN AFTER SUNSET: $SUNSET_TIME_ET_90MIN_AFTER";
-echo "Minutes between NOW and 90 MIN AFTER SUNSET: $((DIFF / 60))"
+echo "Minutes between NOW and 90 MIN AFTER SUNSET: $DIFF_MINUTES"
 
-if [ $DIFF -le 10 ] && [ $DIFF -ge 0 ]; then
+if ((DIFF_MINUTES >= 0 && DIFF_MINUTES <= 10)); then
     ./publishSunsetTimelapse.sh 
 fi
