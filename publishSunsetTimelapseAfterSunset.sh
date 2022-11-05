@@ -4,7 +4,7 @@ PATH="/usr/local/bin/:/usr/bin:/bin"
 DATE=$(date +"%Y-%m-%d")
 SUNSET_API_PROXY_URL=
 
-SUNSET_TIME=$(curl --silent "$SUNSET_API_PROXY_URL?lat=40.730610&lng=-73.935242&date=$DATE" | jq -r '.results.sunset')
+SUNSET_TIME=$(curl --silent "$SUNSET_API_PROXY_URL?date=$DATE" | jq -r '.results.sunset')
 SUNSET_TIME_ET=$(TZ=US/Eastern gdate -d "$SUNSET_TIME")
 SUNSET_TIME_ET_90MIN_AFTER=$(TZ=US/Eastern gdate -d "$SUNSET_TIME_ET + 90 minutes")
 
